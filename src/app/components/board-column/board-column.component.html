@@ -1,0 +1,27 @@
+<div class="board-column flex flex-col h-full bg-gray-100 p-4 rounded-lg"
+     (dragover)="onDragOver($event)"
+     (drop)="onDrop($event)">
+
+  <h2 class="text-lg font-semibold mb-2 capitalize">{{ status }}</h2>
+
+  <div class="flex-1 overflow-y-auto">
+    <app-task *ngFor="let task of tasks; let i = index"
+            [task]="task"
+            draggable="true"
+            (dragstart)="task.id ? onDragStart($event, task.id) : null"
+            (dragover)="onDragOverTask($event, i)"
+            (drop)="onDropTask($event, i)"
+            (taskSelected)="openTaskModal($event)">
+  </app-task>
+  </div>
+
+  <app-task-modal
+    *ngIf="showModal"
+    [task]="selectedTask"
+    (save)="saveTask($event)"
+    (close)="showModal = false"
+    (delete)="deleteTask($event)">
+  </app-task-modal>
+
+  <button (click)="openTaskModal()" class="mt-2 text-blue-500">+ Agregar tarea</button>
+</div>

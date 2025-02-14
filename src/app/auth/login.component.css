@@ -1,0 +1,6 @@
+input {
+  outline: none;
+}
+button:hover {
+  background-color: #2563eb;
+}

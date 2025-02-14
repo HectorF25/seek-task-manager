@@ -1,0 +1,22 @@
+<div
+  class="bg-white p-4 rounded-lg shadow-md mb-2 cursor-pointer border border-gray-200 hover:shadow-lg transition duration-200"
+  draggable="true"
+  (dragstart)="onDragStart($event)"
+  (touchstart)="onTouchStart($event)"
+  (click)="openTaskModal()"
+>
+  <div class="flex justify-between items-start">
+    <div>
+      <h3 class="text-lg font-semibold text-gray-800">{{ task.title }}</h3>
+      <p class="text-sm text-gray-600 mt-1">{{ task.description }}</p>
+    </div>
+    <span class="text-xs text-gray-500">{{ task.finalDate | date: 'shortDate' }}</span>
+  </div>
+
+  <div *ngFor="let sub of task.subTasks" class="flex items-center pt-2">
+    <input type="checkbox" [(ngModel)]="sub.completed"
+      class="mr-2 w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring focus:ring-blue-200"
+      (click)="$event.stopPropagation()" />
+    <span [class.line-through]="sub.completed" class="text-sm text-gray-700">{{ sub.title }}</span>
+  </div>
+</div>

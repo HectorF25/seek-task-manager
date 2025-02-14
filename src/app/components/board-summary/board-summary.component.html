@@ -1,0 +1,25 @@
+<div>
+  <h2 class="text-lg font-semibold mb-2">Resumen</h2>
+
+  <p>Total de tareas: <strong>{{ totalTasks }}</strong></p>
+  <p>Pendientes: <strong>{{ tasksByStatus.todo }}</strong></p>
+  <p>En progreso: <strong>{{ tasksByStatus.inProgress }}</strong></p>
+  <p>Completadas: <strong>{{ tasksByStatus.completed }}</strong></p>
+
+  <div class="mt-4">
+    <p class="text-red-500">🚨 Retrasadas: <strong>{{ delayedTasks }}</strong></p>
+    <p class="text-yellow-500">⏳ No estimadas: <strong>{{ unestimatedTasks }}</strong></p>
+    <p class="text-blue-500">🔄 No iniciadas: <strong>{{ notStartedTasks }}</strong></p>
+  </div>
+
+  <button (click)="openTaskModal()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+    + Agregar tarea
+  </button>
+
+  <app-task-modal
+    *ngIf="showModal"
+    [task]="selectedTask"
+    (save)="saveTask($event)"
+    (close)="showModal = false">
+  </app-task-modal>
+</div>

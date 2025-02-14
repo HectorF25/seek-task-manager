@@ -1,0 +1,15 @@
+.board-column {
+  flex: 1;
+  min-width: 250px;
+  max-width: 400px;
+  background-color: #ffffffef;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+/* 📱 Responsive para móviles */
+@media (max-width: 768px) {
+  .board-column {
+    min-width: 100%;
+  }
+}

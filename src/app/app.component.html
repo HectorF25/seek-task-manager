@@ -1,0 +1,22 @@
+<div>
+  <div class="area">
+    <ul class="circles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+  <app-session-modal
+    [message]="message"
+    [showModal]="showModal"
+    (close)="closeModal()">
+  </app-session-modal>
+  <router-outlet></router-outlet>
+</div>

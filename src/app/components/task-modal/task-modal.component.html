@@ -1,0 +1,82 @@
+<div class="fixed inset-0 flex items-center justify-center bg-transparent backdrop-blur-xl">
+  <div class="bg-white backdrop-blur-xl rounded-xl shadow-xl p-6 w-full max-w-md">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">
+      {{ task ? 'Detalles de Tarea' : 'Nueva Tarea' }}
+    </h2>
+
+    <div class="space-y-3" *ngIf="!isEditing">
+      <p><strong>Título:</strong> {{ tempTask.title }}</p>
+      <p><strong>Descripción:</strong> {{ tempTask.description }}</p>
+      <p><strong>Subtareas:</strong></p>
+      <div class="max-h-24 overflow-y-auto border border-gray-300 rounded-lg p-2">
+        <ul class="space-y-1">
+          <li *ngFor="let subTask of tempTask.subTasks" class="flex items-center space-x-2">
+            <input type="checkbox" [(ngModel)]="subTask.completed" />
+            <span>{{ subTask.title }}</span>
+          </li>
+        </ul>
+      </div>
+      <p><strong>Estado:</strong> {{ tempTask.status }}</p>
+      <p><strong>Fecha de Creación:</strong> {{ tempTask.createdAt | date: 'full' }}</p>
+      <p><strong>Fecha de Inicio:</strong> {{ tempTask.initialDate | date: 'full' }}</p>
+      <p><strong>Fecha Final:</strong> {{ tempTask.finalDate | date: 'full' }}</p>
+    </div>
+
+    <div class="space-y-3" *ngIf="isEditing">
+      <label for="title" class="block text-gray-700 text-sm font-medium">Título:</label>
+      <input [(ngModel)]="tempTask.title" type="text" required
+        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+      <label for="description" class="block text-gray-700 text-sm font-medium">Descripción:</label>
+      <textarea [(ngModel)]="tempTask.description"
+        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+
+      <label for="subTasks" class="block text-gray-700 text-sm font-medium">Subtareas:</label>
+      <div class="max-h-28 overflow-y-auto border-8 border-gray-200 rounded-lg p-2">
+        <div *ngFor="let subTask of tempTask.subTasks; let i = index" class="flex items-center space-x-2 mb-2">
+          <input [(ngModel)]="subTask.title"
+            class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <button (click)="removeSubTask(i)" class="text-red-500">&#10060;</button>
+        </div>
+      </div>
+      <button (click)="addSubTask()" class="px-3 py-1 bg-green-500 text-white rounded">+ Añadir Subtarea</button>
+      <p *ngIf="hasEmptySubTasks()" class="text-red-500 text-sm">No puedes dejar subtareas vacías.</p>
+
+      <label for="status" class="block text-gray-700 text-sm font-medium">Estado:</label>
+      <select [(ngModel)]="tempTask.status"
+        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="todo">To Do</option>
+        <option value="in-progress">In Progress</option>
+        <option value="completed">Completed</option>
+      </select>
+
+      <label for="initialDate" class="block text-gray-700 text-sm font-medium">Fecha de Inicio:</label>
+      <input [(ngModel)]="tempTask.initialDate" type="datetime-local"
+        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+      <label for="finalDate" class="block text-gray-700 text-sm font-medium">Fecha Final:</label>
+      <input [(ngModel)]="tempTask.finalDate" type="datetime-local"
+        class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    </div>
+
+    <div class="flex justify-end space-x-2 mt-4">
+      <button *ngIf="!isEditing" (click)="isEditing = true"
+        class="px-4 py-2 bg-yellow-500 text-white rounded-lg shadow-md hover:bg-yellow-600 transition">
+        Editar
+      </button>
+      <button *ngIf="isEditing" (click)="onSave()"
+        [disabled]="hasEmptySubTasks()"
+        class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition disabled:bg-gray-400">
+        Guardar
+      </button>
+      <button *ngIf="tempTask.id" (click)="deleteTask(tempTask.id)"
+        class="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transition">
+        Eliminar
+      </button>
+      <button (click)="onClose()"
+        class="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg shadow-md hover:bg-gray-400 transition">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
